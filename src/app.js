@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { config } from "dotenv";
 import morgan from "morgan";
 import { Server } from "socket.io";
+import * as SocketEvents from "./socketEvents.js";
 
 config(); // dotenv config
 
@@ -23,31 +24,37 @@ app.use(express.static("public"));
 function onClientJoin(client) {
 	return (name) => {
 		clients[client.id] = name;
-		client.emit("server-message", "You have connected to the server");
-		client.broadcast.emit("server-message", `${name} has joined the server`);
-		io.emit("clients", clients);
+		client.emit(
+			SocketEvents.SERVER_MESSAGE,
+			"You have connected to the server"
+		);
+		client.broadcast.emit(
+			SocketEvents.SERVER_MESSAGE,
+			`${name} has joined the server`
+		);
+		io.emit(SocketEvents.CLIENTS, clients);
 	};
 }
 
 function onClientPlay(client) {
 	return () => {
-		client.emit("server-message", "You played the video");
+		client.emit(SocketEvents.SERVER_MESSAGE, "You played the video");
 		client.broadcast.emit(
-			"server-message",
+			SocketEvents.SERVER_MESSAGE,
 			`${clients[client.id]} played the video`
 		);
-		client.broadcast.emit("play");
+		client.broadcast.emit(SocketEvents.PLAY);
 	};
 }
 
 function onClientPause(client) {
 	return () => {
-		client.emit("server-message", "You paused the video");
+		client.emit(SocketEvents.SERVER_MESSAGE, "You paused the video");
 		client.broadcast.emit(
-			"server-message",
+			SocketEvents.SERVER_MESSAGE,
 			`${clients[client.id]} paused the video`
 		);
-		client.broadcast.emit("pause");
+		client.broadcast.emit(SocketEvents.PAUSE);
 	};
 }
 
@@ -55,47 +62,50 @@ function onClientSeek(client) {
 	return (time) => {
 		const seekTime = new Date(time * 1000).toISOString().substr(11, 8);
 
-		client.emit("server-message", `You seeked the video to ${seekTime}`);
+		client.emit(
+			SocketEvents.SERVER_MESSAGE,
+			`You seeked the video to ${seekTime}`
+		);
 		client.broadcast.emit(
-			"server-message",
+			SocketEvents.SERVER_MESSAGE,
 			`${clients[client.id]} seeked the video to ${seekTime}`
 		);
-		client.broadcast.emit("seek", time);
+		client.broadcast.emit(SocketEvents.SEEK, time);
 	};
 }
 
 function onClientMessage(client) {
 	return (message) => {
-		io.emit("client-message", { from: client.id, message });
+		io.emit(SocketEvents.CLIENT_MESSAGE, { from: client.id, message });
 	};
 }
 
 function onClientDisconnect(client) {
 	return () => {
 		client.broadcast.emit(
-			"server-message",
+			SocketEvents.SERVER_MESSAGE,
 			`${clients[client.id]} has left the server`
 		);
 		delete clients[client.id];
-		io.emit("clients", clients);
+		io.emit(SocketEvents.CLIENTS, clients);
 	};
 }
 
 function onClientConnected(client) {
-	client.on("join", onClientJoin(client));
+	client.on(SocketEvents.JOIN, onClientJoin(client));
 
-	client.on("play", onClientPlay(client));
+	client.on(SocketEvents.PLAY, onClientPlay(client));
 
-	client.on("pause", onClientPause(client));
+	client.on(SocketEvents.PAUSE, onClientPause(client));
 
-	client.on("message", onClientMessage(client));
+	client.on(SocketEvents.MESSAGE, onClientMessage(client));
 
-	client.on("seek", onClientSeek(client));
+	client.on(SocketEvents.SEEK, onClientSeek(client));
 
-	client.on("disconnect", onClientDisconnect(client));
+	client.on(SocketEvents.DISCONNECT, onClientDisconnect(client));
 }
 
-io.on("connection", onClientConnected);
+io.on(SocketEvents.CONNECTION, onClientConnected);
 
 server.listen(PORT, () => {
 	console.log("Server started.");

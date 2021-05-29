@@ -1,8 +1,29 @@
 document.body.onload = () => {
-	const inputContainer = document.getElementById("inputContainer");
+	const VIDEO_IMAGE_SRC = "/assets/img/video.png";
+	const UPLOAD_IMAGE_SRC = "/assets/img/upload.png";
+
 	const videoInput = document.getElementById("videoInput");
+	const inputContainer = document.getElementById("inputContainer");
+
+	const img = inputContainer.querySelector("img");
+	const videoInputText = inputContainer.querySelector("h1");
+
+	function onDragDone() {
+		img.src = VIDEO_IMAGE_SRC;
+		videoInputText.textContent = "Click here or Drag and Drop File";
+	}
+
+	videoInput.addEventListener("dragover", () => {
+		img.src = UPLOAD_IMAGE_SRC;
+		videoInputText.textContent = "Drop Here";
+	});
+
+	videoInput.addEventListener("dragleave", onDragDone);
+
+	videoInput.addEventListener("drop", onDragDone);
 
 	videoInput.addEventListener("change", () => {
+		onDragDone();
 		inputContainer.classList.add("hide");
 		onVideoLoad(URL.createObjectURL(videoInput.files[0]));
 		videoInput.value = "";

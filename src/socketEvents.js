@@ -1,0 +1,10 @@
+export const JOIN = "join";
+export const PLAY = "play";
+export const SEEK = "seek";
+export const PAUSE = "pause";
+export const CLIENTS = "clients";
+export const MESSAGE = "message";
+export const CONNECTION = "connection";
+export const DISCONNECT = "disconnect";
+export const SERVER_MESSAGE = "server-message";
+export const CLIENT_MESSAGE = "client-message";
