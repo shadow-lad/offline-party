@@ -1,0 +1,25 @@
+{
+  "name": "offline-party",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app",
+    "dev": "nodemon src/app"
+  },
+  "keywords": [],
+  "author": "shadow-lad <shardav.lad21@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.1.2",
+    "socket.io-client": "^4.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

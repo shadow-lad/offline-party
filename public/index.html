@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Offline Party</title>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		/>
+		<link rel="stylesheet" href="/css/style.css" />
+	</head>
+	<body>
+		<div id="inputContainer">
+			<input type="file" accept="video/*" id="videoInput" />
+		</div>
+		<div style="height: 100%" id="main" class="hide">
+			<div id="videoContainer">
+				<video controls></video>
+			</div>
+			<div id="info">
+				<div id="clientsContainer"></div>
+				<div id="messageContainer"></div>
+				<div id="chatContainer">
+					<input
+						type="text"
+						id="messageInput"
+						placeholder="Chat here..."
+					/>
+					<button id="sendButton">
+						<span class="material-icons"> send </span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="/js/index.js"></script>
+	</body>
+</html>
