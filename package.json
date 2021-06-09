@@ -1,11 +1,13 @@
 {
   "name": "backend",
   "version": "0.0.1",
-  "type": "module",
-  "main": "src/app.js",
   "scripts": {
-    "start": "node src/app",
-    "dev": "nodemon src/app"
+    "build": "webpack --config webpack.prod.js",
+    "prestart": "npm run build",
+    "start": "node backend/src/app",
+    "dev:frontend": "webpack serve --config webpack.dev.js --open --hot",
+    "dev:backend": "nodemon backend/src/app",
+    "dev": "npm-run-all --parallel dev:*"
   },
   "keywords": [],
   "author": "shadow-lad <shardav.lad21@gmail.com>",
@@ -13,10 +15,24 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "socket.io": "^4.1.2"
+    "socket.io": "^4.1.2",
+    "socket.io-client": "^4.1.2"
   },
   "devDependencies": {
+    "css-loader": "^5.2.6",
+    "css-minimizer-webpack-plugin": "^3.0.1",
+    "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.3.1",
+    "mini-css-extract-plugin": "^1.6.0",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.7"
+    "node-sass": "^6.0.0",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "sass-loader": "^12.0.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.8.0"
   }
 }

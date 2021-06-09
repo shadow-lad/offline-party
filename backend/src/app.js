@@ -1,8 +1,8 @@
-import * as SocketEvents from "./socketEvents.js";
-import { createServer } from "http";
-import { Server } from "socket.io";
-import { config } from "dotenv";
-import express from "express";
+const SocketEvents = require("./socketEvents.js");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+const { config } = require("dotenv");
+const express = require("express");
 
 config();
 
