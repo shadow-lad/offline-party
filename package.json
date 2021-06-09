@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "prestart": "npm run build",
     "start": "node backend/src/app",
     "dev:frontend": "webpack serve --config webpack.dev.js --open --hot",
     "dev:backend": "nodemon backend/src/app",
