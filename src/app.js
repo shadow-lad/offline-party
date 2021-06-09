@@ -1,23 +1,21 @@
-import express from "express";
-import { createServer } from "http";
-import { config } from "dotenv";
-import morgan from "morgan";
-import { Server } from "socket.io";
 import * as SocketEvents from "./socketEvents.js";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import { config } from "dotenv";
+import express from "express";
 
-config(); // dotenv config
+config();
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
 const PORT = process.env.PORT || 8080;
-
-if (process.env.NODE_ENV === "development") {
-	app.use(morgan("dev"));
-}
-
 const clients = {};
+
+if (process.env.NODE_EV === "development") {
+	app.use(require("morgan")("dev"));
+}
 
 app.use(express.static("public"));
 
@@ -108,6 +106,6 @@ function onClientConnected(client) {
 io.on(SocketEvents.CONNECTION, onClientConnected);
 
 server.listen(PORT, () => {
-	console.log("Server started.");
-	console.log(`Access Server on port ${PORT}`);
+	console.clear();
+	console.log("Server is up and running.");
 });
