@@ -19,9 +19,7 @@ class VideoPlayer {
 
 		this.timeText = document.querySelector(".extra-text .time");
 
-		this.playbackButtons = document.querySelectorAll(
-			".playback-controls button"
-		);
+		this.playbackButtons = document.querySelectorAll(".playback-controls button");
 
 		for (var x of this.playbackButtons) {
 			const action = x.dataset["action"];
@@ -162,12 +160,7 @@ class VideoPlayer {
 			this.volumeLevel = value;
 		}
 
-		const icon =
-			value === 0
-				? "volume_mute"
-				: value <= 0.5
-				? "volume_down"
-				: "volume_up";
+		const icon = value === 0 ? "volume_mute" : value <= 0.5 ? "volume_down" : "volume_up";
 
 		this.volumeButton.firstElementChild.innerText = icon;
 		if (isButton) this.displayInfoIcon(icon);
@@ -229,15 +222,11 @@ class VideoPlayer {
 	}
 
 	initializeControls() {
-		this.fullscreenButton.addEventListener(
-			"click",
-			this.toggleFullscreen.bind(this)
-		);
+		this.fullscreenButton.addEventListener("click", this.toggleFullscreen.bind(this));
 
 		document.addEventListener("fullscreenchange", () => {
 			if (document.fullscreenElement) {
-				this.fullscreenButton.firstElementChild.innerText =
-					"fullscreen_exit";
+				this.fullscreenButton.firstElementChild.innerText = "fullscreen_exit";
 				this.displayInfoIcon("fullscreen");
 			} else {
 				this.fullscreenButton.firstElementChild.innerHTML = "fullscreen";
@@ -270,15 +259,13 @@ class VideoPlayer {
 		this.video.addEventListener("timeupdate", () => {
 			const percentage = this.video.currentTime / this.video.duration;
 			this.progress.style.width = `${percentage * 100}%`;
+			if (isNaN(percentage)) return;
 			this.setTime(percentage);
 		});
 
 		this.video.addEventListener("play", this.onVideoPlayed.bind(this));
 		this.video.addEventListener("pause", this.onVideoPaused.bind(this));
-		this.video.addEventListener(
-			"seeked",
-			() => this.onSeek && this.onSeek(this.video.currentTime)
-		);
+		this.video.addEventListener("seeked", () => this.onSeek && this.onSeek(this.video.currentTime));
 	}
 
 	initializeVideoContainer() {
@@ -337,8 +324,7 @@ class VideoPlayer {
 		});
 
 		this.videoContainer.addEventListener("click", () => {
-			if (!this.videoContainerHasFocus)
-				return (this.videoContainerHasFocus = true);
+			if (!this.videoContainerHasFocus) return (this.videoContainerHasFocus = true);
 			this.clickTimeout = setTimeout(() => {
 				if (!this.prevent) this.togglePlay();
 			}, 200);
